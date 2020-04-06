@@ -1,23 +1,4 @@
-const Board = require('./board.model');
-
-const boards = [
-  new Board({
-    id: '1',
-    title: '1st ever board',
-    columns: [
-      { id: '1', title: 'Backlog', order: 1 },
-      { id: '2', title: 'Sprint', order: 2 }
-    ]
-  }),
-  new Board({
-    id: '2',
-    title: 'Vacation board',
-    columns: [
-      { id: '111', title: 'Travel to', order: 1 },
-      { id: '222', title: 'Bring stuff from', order: 2 }
-    ]
-  })
-];
+const boards = [];
 
 const getAll = () => boards;
 

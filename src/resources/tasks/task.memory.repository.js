@@ -1,13 +1,6 @@
 const Task = require('./task.model');
 
-const tasks = [
-  new Task({
-    id: '1',
-    order: '5',
-    description: 'testing...',
-    boardId: '1'
-  })
-];
+const tasks = [];
 
 const getTasksByBoardId = boardId =>
   tasks.filter(task => task.boardId === boardId);
