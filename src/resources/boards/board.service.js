@@ -11,7 +11,7 @@ const updateBoard = (id, boardInfo) => boardsRepo.updateBoard(id, boardInfo);
 
 const deleteBoard = async id => {
   await getTasksByBoardId(id).forEach(deleteTask);
-  boardsRepo.deleteBoard(id);
+  await boardsRepo.deleteBoard(id);
 };
 
 module.exports = { getAll, getBoardById, saveBoard, updateBoard, deleteBoard };

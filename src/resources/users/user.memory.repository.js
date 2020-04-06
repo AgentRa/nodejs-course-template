@@ -1,4 +1,23 @@
-const users = [];
+const users = [
+  {
+    id: '1',
+    name: 'Alex',
+    login: 'test1',
+    password: 'wehoeiwjfiojw'
+  },
+  {
+    id: '2',
+    name: 'KING',
+    login: 'test2 ',
+    password: 'BANGER'
+  },
+  {
+    id: '3',
+    name: 'LeeEEE',
+    login: 'test3',
+    password: 'Magic'
+  }
+];
 
 const getAll = () => users;
 

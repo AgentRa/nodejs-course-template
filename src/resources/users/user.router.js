@@ -50,7 +50,7 @@ router.route('/:id').put(async (req, res) => {
 router.route('/:id').delete(async (req, res) => {
   if (await getUserById(req.params.id)) {
     await deleteUser(req.params.id);
-    await res.status(204).end();
+    await res.status(200).end();
     return;
   }
   await res

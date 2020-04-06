@@ -11,7 +11,7 @@ const updateUser = (id, userInfo) => usersRepo.updateUser(id, userInfo);
 
 const deleteUser = async id => {
   await getTasksByUserId(id).forEach(task => (task.userId = null));
-  usersRepo.deleteUser(id);
+  await usersRepo.deleteUser(id);
 };
 
 module.exports = { getAll, getUserById, saveUser, updateUser, deleteUser };
