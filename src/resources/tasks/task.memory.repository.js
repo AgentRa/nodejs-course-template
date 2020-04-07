@@ -48,7 +48,7 @@ const updateTask = (id, taskInfo) => {
   tasks.splice(tasks.indexOf(task), 1, { ...task, ...taskInfo });
 };
 
-const deleteTask = ({ id }) => {
+const deleteTask = async ({ id }) => {
   const task = tasks.find(item => item.id === id);
   tasks.splice(tasks.indexOf(task), 1);
 };

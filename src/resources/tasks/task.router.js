@@ -11,7 +11,7 @@ const {
 
 router.route('/').get(async (req, res) => {
   const tasks = await getTasksByBoardId(req.params.boardId);
-  if (tasks) {
+  if (tasks.length) {
     await res.json(tasks);
     return;
   }

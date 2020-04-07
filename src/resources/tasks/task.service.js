@@ -10,7 +10,7 @@ const saveTask = (taskInfo, boardId) => taskRepo.saveTask(taskInfo, boardId);
 
 const updateTask = (id, taskInfo) => taskRepo.updateTask(id, taskInfo);
 
-const deleteTask = id => taskRepo.deleteTask(id);
+const deleteTask = id => taskRepo.deleteTask({ id });
 
 module.exports = {
   getTasksByBoardId,

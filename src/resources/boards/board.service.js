@@ -9,9 +9,9 @@ const saveBoard = board => boardsRepo.saveBoard(board);
 
 const updateBoard = (id, boardInfo) => boardsRepo.updateBoard(id, boardInfo);
 
-const deleteBoard = async id => {
-  await getTasksByBoardId(id).forEach(deleteTask);
-  await boardsRepo.deleteBoard(id);
+const deleteBoard = async boardId => {
+  await getTasksByBoardId(boardId).forEach(({ id }) => deleteTask(id));
+  await boardsRepo.deleteBoard(boardId);
 };
 
 module.exports = { getAll, getBoardById, saveBoard, updateBoard, deleteBoard };
