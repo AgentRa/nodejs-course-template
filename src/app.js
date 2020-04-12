@@ -5,6 +5,7 @@ const YAML = require('yamljs');
 
 const logger = require('./utils/logger');
 const requestLogger = require('./utils/requestLogger');
+const errorHandler = require('./utils/errorHandler');
 
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
@@ -23,16 +24,15 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardId/tasks', taskRouter);
 
+app.use(errorHandler);
+
 process
   .on('uncaughtException', err => {
     logger.error(`Uncaught exception: ${err.message}`);
     process.exitCode = 1;
   })
   .on('unhandledRejection', reason => {
-    logger.error(`Unhandled rejection detected: ${reason.message}`);
+    logger.error(`Unhandled rejection: ${reason.message}`);
   });
-
-// throw Error('Exception!');
-// Promise.reject(error('Rejectoon '))
 
 module.exports = app;
