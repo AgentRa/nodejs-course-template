@@ -4,8 +4,8 @@ const path = require('path');
 const YAML = require('yamljs');
 
 const logger = require('./utils/logger');
-const requestLogger = require('./utils/requestLogger');
-const errorHandler = require('./utils/errorHandler');
+const requestLogger = require('./middleware/loggerMiddleware');
+const errorHandler = require('./middleware/errorHandler');
 
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');

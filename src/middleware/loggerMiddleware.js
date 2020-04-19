@@ -1,5 +1,5 @@
 const { finished } = require('stream');
-const logger = require('./logger');
+const logger = require('../utils/logger');
 
 const requestLogger = (req, res, next) => {
   if (req.originalUrl === '/') {

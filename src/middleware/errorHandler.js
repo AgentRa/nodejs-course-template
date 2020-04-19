@@ -1,5 +1,5 @@
 const { INTERNAL_SERVER_ERROR, getStatusText } = require('http-status-codes');
-const logger = require('./logger');
+const logger = require('../utils/logger');
 
 const errorHandler = (err, req, res, next) => {
   if (err.status) {
