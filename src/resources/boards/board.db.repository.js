@@ -1,15 +1,14 @@
 const Board = require('./board.model');
 
-const getAll = () => Board.find({});
+const getAll = async () => await Board.find({});
 
-const getBoardById = id => Board.findById(id);
+const getBoardById = async id => await Board.findById(id);
 
-const saveBoard = async board => Board.create(board);
+const saveBoard = async board => await Board.create(board);
 
 const updateBoard = async (id, boardInfo) =>
-  Board.updateOne({ _id: id }, boardInfo);
+  await Board.updateOne({ _id: id }, boardInfo);
 
-const deleteBoard = async id =>
-  (await Board.deleteOne({ _id: id })).deletedCount;
+const deleteBoard = async id => (await Board.deleteOne({ _id: id })).ok;
 
 module.exports = { getAll, getBoardById, saveBoard, updateBoard, deleteBoard };

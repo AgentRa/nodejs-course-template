@@ -6,7 +6,7 @@ const logger = createLogger({
   transports: [
     new transports.Console(),
     new transports.File({
-      filename: './logs/every.log',
+      filename: './logs/info.log',
       level: 'silly',
       format: format.combine(format.uncolorize(), format.json())
     })

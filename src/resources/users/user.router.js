@@ -1,12 +1,8 @@
 const router = require('express').Router();
-const {
-  OK,
-  NO_CONTENT,
-  NOT_FOUND,
-  BAD_REQUEST,
-  CREATED
-} = require('http-status-codes');
 const User = require('./user.model');
+const validator = require('../../utils/validator/validator');
+const { id, user } = require('../../utils/validator/schemas');
+const { OK, NO_CONTENT } = require('http-status-codes');
 const {
   getAll,
   getUserById,
@@ -19,65 +15,46 @@ const catchErrors = require('../../utils/catchErrors');
 
 // Controller Layer
 
-router.route('/').get(
-  catchErrors(async (req, res) => {
-    const users = await getAll();
-    await res.status(OK).json(users.map(User.toResponse));
-  })
-);
+router
+  .route('/')
+  .get(
+    catchErrors(async (req, res) => {
+      const users = await getAll();
+      await res.status(OK).json(users.map(User.toResponse));
+    })
+  )
+  .post(
+    validator(user, 'body'),
+    catchErrors(async (req, res) => {
+      const newUser = new User(await req.body);
+      await saveUser(newUser);
+      await res.status(OK).json(User.toResponse(newUser));
+    })
+  );
 
-router.route('/:id').get(
-  catchErrors(async (req, res) => {
-    const user = await getUserById(req.params.id);
-    if (user) {
-      await res.status(OK).json(User.toResponse(user));
-      return;
-    }
-    await res.status(NOT_FOUND).send({ error: 'User not found' });
-  })
-);
-
-router.route('/').post(
-  catchErrors(async (req, res) => {
-    const { name, login, password } = await req.body;
-    if (!name || !login || !password) {
-      await res
-        .status(BAD_REQUEST)
-        .send({ error: 'All fields must be fulfilled' });
-      return;
-    }
-    const user = new User(await req.body);
-    await saveUser(user);
-    await res.status(CREATED).json(User.toResponse(user));
-  })
-);
-
-router.route('/:id').put(
-  catchErrors(async (req, res) => {
-    if (await getUserById(req.params.id)) {
+router
+  .route('/:id')
+  .get(
+    validator(id, 'params'),
+    catchErrors(async (req, res) => {
+      const reqUser = await getUserById(req.params.id);
+      res.status(OK).json(User.toResponse(reqUser));
+    })
+  )
+  .put(
+    validator(id, 'params'),
+    validator(user, 'body'),
+    catchErrors(async (req, res) => {
       await updateUser(req.params.id, req.body);
-      await res.status(OK).json(User.toResponse(getUserById(req.params.id)));
-      return;
-    }
-    await res
-      .status(BAD_REQUEST)
-      .send({ message: 'Error: you must put existing id' })
-      .end();
-  })
-);
-
-router.route('/:id').delete(
-  catchErrors(async (req, res) => {
-    if (await getUserById(req.params.id)) {
+      res.status(OK).json(User.toResponse(getUserById(req.params.id)));
+    })
+  )
+  .delete(
+    validator(id, 'params'),
+    catchErrors(async (req, res) => {
       await deleteUser(req.params.id);
-      await res.status(NO_CONTENT).end();
-      return;
-    }
-    await res
-      .status(NOT_FOUND)
-      .send({ message: 'User not found' })
-      .end();
-  })
-);
+      res.status(NO_CONTENT).end();
+    })
+  );
 
 module.exports = router;

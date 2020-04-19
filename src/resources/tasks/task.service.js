@@ -1,16 +1,22 @@
-const taskRepo = require('./task.memory.repository');
+const taskRepo = require('./task.db.repository');
 
-const getTasksByBoardId = boardId => taskRepo.getTasksByBoardId(boardId);
+const getTasksByBoardId = async boardId =>
+  await taskRepo.getTasksByBoardId(boardId);
 
-const getTasksByUserId = userId => taskRepo.getTasksByUserId(userId);
+const getTasksByUserId = async userId =>
+  await taskRepo.getTasksByUserId(userId);
 
-const getById = id => taskRepo.getById(id);
+const getById = async id => await taskRepo.getById(id);
 
-const saveTask = (taskInfo, boardId) => taskRepo.saveTask(taskInfo, boardId);
+const saveTask = async (taskInfo, boardId) =>
+  await taskRepo.saveTask(taskInfo, boardId);
 
-const updateTask = (id, taskInfo) => taskRepo.updateTask(id, taskInfo);
+const updateTask = async (id, taskInfo) =>
+  await taskRepo.updateTask(id, taskInfo);
 
-const deleteTask = id => taskRepo.deleteTask({ id });
+const deleteTask = async id => await taskRepo.deleteTask({ id });
+
+const removeUserId = async userId => await taskRepo.removeUserId(userId);
 
 module.exports = {
   getTasksByBoardId,
@@ -18,5 +24,6 @@ module.exports = {
   saveTask,
   updateTask,
   deleteTask,
-  getTasksByUserId
+  getTasksByUserId,
+  removeUserId
 };

@@ -1,7 +1,7 @@
 const { finished } = require('stream');
 const logger = require('../utils/logger');
 
-const requestLogger = (req, res, next) => {
+const loggerMiddleware = (req, res, next) => {
   if (req.originalUrl === '/') {
     res.send('Service is running!');
     return;
@@ -25,4 +25,4 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-module.exports = requestLogger;
+module.exports = loggerMiddleware;
