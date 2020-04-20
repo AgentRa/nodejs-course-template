@@ -20,14 +20,14 @@ router
   .get(
     catchErrors(async (req, res) => {
       const boards = await getAll();
-      await res.status(OK).json(boards);
+      return res.status(OK).json(boards.map(Board.toResponse));
     })
   )
   .post(
     catchErrors(async (req, res) => {
       const board = new Board(await req.body);
       await saveBoard(board);
-      await res.status(OK).json(board);
+      return res.status(OK).json(Board.toResponse(board));
     })
   );
 
@@ -37,22 +37,22 @@ router
     validator(id, 'params'),
     catchErrors(async (req, res) => {
       const board = await getBoardById(req.params.id);
-      if (board) await res.status(OK).json(board);
-      await res.status(NOT_FOUND).send({ error: 'Board not found' });
+      if (board) return res.status(OK).json(Board.toResponse(board));
+      return res.status(NOT_FOUND).send({ error: 'Board not found' });
     })
   )
   .put(
     validator(id, 'params'),
     catchErrors(async (req, res) => {
       await updateBoard(req.params.id, req.body);
-      await res.status(OK).json(getBoardById(req.params.id));
+      return res.status(OK).json(Board.toResponse(getBoardById(req.params.id)));
     })
   )
   .delete(
     validator(id, 'params'),
     catchErrors(async (req, res) => {
       await deleteBoard(req.params.id);
-      await res.status(NO_CONTENT).end();
+      return res.status(NO_CONTENT).end();
     })
   );
 

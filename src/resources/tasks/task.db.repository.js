@@ -12,10 +12,13 @@ const saveTask = async (taskInfo, boardId) =>
 const removeUserId = async userId =>
   (await Task.updateMany({ userId }, { userId: null })).ok;
 
-const updateTask = async (id, taskInfo) =>
-  await Task.updateOne({ _id: id }, taskInfo);
+const updateTask = async (_id, taskInfo) =>
+  await Task.updateOne({ _id }, taskInfo);
 
 const deleteTask = async ({ id }) => (await Task.deleteOne({ _id: id })).ok;
+
+const deleteTasksByBoardId = async boardId =>
+  (await Task.deleteMany({ boardId })).ok;
 
 module.exports = {
   getTasksByBoardId,
@@ -24,5 +27,6 @@ module.exports = {
   updateTask,
   deleteTask,
   getTasksByUserId,
-  removeUserId
+  removeUserId,
+  deleteTasksByBoardId
 };

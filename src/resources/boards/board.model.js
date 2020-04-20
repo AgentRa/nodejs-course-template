@@ -19,6 +19,11 @@ const boardSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
+boardSchema.statics.toResponse = board => {
+  const { title, columns, _id: id } = board;
+  return { title, columns, id };
+};
+
 const Board = mongoose.model('Board', boardSchema);
 
 module.exports = Board;

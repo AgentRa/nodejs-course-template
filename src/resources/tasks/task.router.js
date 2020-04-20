@@ -8,6 +8,7 @@ const {
   deleteTask
 } = require('./task.service');
 
+const Task = require('./task.model');
 const { taskId } = require('../../utils/validator/schemas');
 const validator = require('../../utils/validator/validator');
 const catchErrors = require('../../utils/catchErrors');
@@ -18,13 +19,13 @@ router
   .get(
     catchErrors(async (req, res) => {
       const tasks = await getTasksByBoardId(req.params.boardId);
-      await res.status(OK).json(tasks);
+      await res.status(OK).json(tasks.map(Task.toResponse));
     })
   )
   .post(
     catchErrors(async (req, res) => {
       const task = await saveTask(req.body, req.params.boardId);
-      await res.status(OK).json(task);
+      await res.status(OK).json(Task.toResponse(task));
     })
   );
 
@@ -36,14 +37,14 @@ router
       const task = await getById(req.params.id);
       res
         .status(task ? OK : NOT_FOUND)
-        .json(task ? task : { error: 'Task not found' });
+        .json(task ? Task.toResponse(task) : { error: 'Task not found' });
     })
   )
   .put(
     validator(taskId, 'params'),
     catchErrors(async (req, res) => {
       await updateTask(req.params.id, req.body);
-      await res.status(OK).json(getById(req.params.id));
+      await res.status(OK).json(Task.toResponse(getById(req.params.id)));
     })
   )
   .delete(

@@ -1,5 +1,5 @@
 const boardsRepo = require('./board.db.repository');
-const { getTasksByBoardId, deleteTask } = require('../tasks/task.service');
+const { deleteTasksByBoardId } = require('../tasks/task.service');
 
 const getAll = async () => await boardsRepo.getAll();
 
@@ -11,7 +11,7 @@ const updateBoard = async (id, boardInfo) =>
   await boardsRepo.updateBoard(id, boardInfo);
 
 const deleteBoard = async boardId => {
-  await getTasksByBoardId(boardId).forEach(({ id }) => deleteTask(id));
+  await deleteTasksByBoardId(boardId);
   await boardsRepo.deleteBoard(boardId);
 };
 
