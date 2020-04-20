@@ -6,11 +6,7 @@ const getTasksByBoardId = async boardId =>
 const getTasksByUserId = async userId =>
   await taskRepo.getTasksByUserId(userId);
 
-const getById = async id => {
-  const task = await taskRepo.getById(id);
-  console.log('ГЕТ БАЙ АЙДИ', task);
-  return task;
-};
+const getById = async id => await taskRepo.getById(id);
 
 const saveTask = async (taskInfo, boardId) =>
   await taskRepo.saveTask(taskInfo, boardId);
