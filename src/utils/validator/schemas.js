@@ -23,7 +23,7 @@ const schemas = {
         .max(30)
         .required(),
       login: Joi.string()
-        .min(7)
+        .min(4)
         .max(20)
         .required(),
       password: Joi.string().regex(/^(?=.*\d).{3,30}$/)

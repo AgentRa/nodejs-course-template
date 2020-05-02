@@ -4,14 +4,15 @@ const { MONGO_CONNECTION_STRING } = require('../common/config');
 const User = require('../resources/users/user.model');
 const Board = require('../resources/boards/board.model');
 const Task = require('../resources/tasks/task.model');
+const { saveUser } = require('../resources/users/user.service');
 
 const users = [
   new User({ name: 'user1', login: 'admin', password: 'admin' }),
   new User({ name: 'user2', login: 'login2', password: 'password222' }),
   new User({
-    _id: '85992098-3355-4ef4-82bb-ead06fbfd43b',
     name: 'userWithTask',
-    login: 'odmenMolodec'
+    login: 'odmenMolodec',
+    password: 'admin'
   })
 ];
 
@@ -51,7 +52,7 @@ const connectToDB = cb => {
     db.dropDatabase();
     console.log('we are connected!');
     setTimeout(() => {
-      users.forEach(user => user.save());
+      users.forEach(user => saveUser(user._doc));
       boards.forEach(board => board.save());
       tasks.forEach(task => task.save());
       cb();
