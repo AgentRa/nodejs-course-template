@@ -2,7 +2,7 @@ const User = require('./user.model');
 
 const getAll = async () => User.find({});
 
-const getUserById = async id => User.findById(id);
+const getUserById = async _id => await User.findById(_id);
 
 const saveUser = async user => User.create(user);
 

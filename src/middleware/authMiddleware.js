@@ -1,23 +1,19 @@
-const { checkLogin } = require('../resources/login/login.service');
-const requestError = require('../utils/requestError');
+const jwt = require('jsonwebtoken');
+const { AUTHORIZATION_SCHEMA, JWT_SECRET_KEY } = require('../common/config');
+const { UNAUTHORIZED, BAD_REQUEST } = require('http-status-codes');
 
 const authMiddleware = (req, res, next) => {
-  const rout = req.url.split('/')[1];
-  if (rout === 'login' || rout === 'doc' || rout === '') {
-    return next();
+  const token = req.header('Authorization');
+  if (!token) res.status(UNAUTHORIZED).end();
+  try {
+    const verified = jwt.verify(
+      token.replace(AUTHORIZATION_SCHEMA, '').replace(' ', ''),
+      JWT_SECRET_KEY
+    );
+    req.user = verified;
+  } catch (error) {
+    res.status(BAD_REQUEST).end();
   }
-
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    throw new requestError(401, 'Unauthorized');
-  }
-
-  const token = authHeader.substring(7);
-  const authTrue = checkLogin(token);
-  if (!authTrue) {
-    throw new requestError(401, 'Unauthorized');
-  }
-
   next();
 };
 

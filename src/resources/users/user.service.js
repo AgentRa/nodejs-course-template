@@ -5,7 +5,12 @@ const { SALT_ROUNDS } = require('../../common/config');
 
 const getAll = () => usersRepo.getAll();
 
-const getUserById = id => usersRepo.getUserById(id);
+const getUserById = async id => {
+  console.log('АЙДИИИИИ', id);
+  const user = await usersRepo.getUserById(id);
+  console.log('ЮЗЕЕЕЕР', user);
+  return user;
+};
 
 const getUserByLogin = login => usersRepo.getUserByLogin(login);
 

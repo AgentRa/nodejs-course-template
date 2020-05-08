@@ -9,18 +9,6 @@ connectToDB(() => {
   );
 });
 
-// For testing uncaughtException
-
-// setTimeout(() => {
-//   throw new Error('Oops!');
-// }, 1500)
-
-// For testing unhandledRejection
-
-// setTimeout(() => {
-//   Promise.reject(new Error('Oops!'));
-// }, 1500)
-
 process
   .on('uncaughtException', err => {
     logger.error(`Uncaught exception: ${err.message}`);
